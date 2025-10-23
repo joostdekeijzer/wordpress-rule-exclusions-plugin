@@ -67,3 +67,81 @@ tests:
         output:
           log:
             no_expect_ids: [920450]
+  - test_id: 4
+    desc: Save post
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json, */*;q=0.1
+            Content-Type: application/json
+            x-http-method-override: PUT
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /wp-json/wp/v2/posts/1&_locale=user
+          data: |
+            {"id":1,"content":"<p>Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!</p>\n\n<!-- wp:paragraph -->\n<p>dddd</p>\n<!-- /wp:paragraph -->"}
+        output:
+          log:
+            no_expect_ids: [920450]
+  - test_id: 5
+    desc: Delete post
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json, */*;q=0.1
+            Content-Type: application/json
+            x-http-method-override: DELETE
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /wp-json/wp/v2/posts/1&_locale=user
+        output:
+          log:
+            no_expect_ids: [920450]
+  - test_id: 6
+    desc: Save post when permalink struct starts with /index.php/
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json, */*;q=0.1
+            Content-Type: application/json
+            x-http-method-override: PUT
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /index.php/wp-json/wp/v2/posts/1&_locale=user
+          data: |
+            {"id":1,"content":"<p>Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!</p>\n\n<!-- wp:paragraph -->\n<p>dddd</p>\n<!-- /wp:paragraph -->"}
+        output:
+          log:
+            no_expect_ids: [920450]
+  - test_id: 7
+    desc: Save post for multisite or a WordPress installation in "nested directories"
+    stages:
+      - input:
+          dest_addr: 127.0.0.1
+          headers:
+            Host: localhost
+            User-Agent: "OWASP CRS test agent"
+            Accept: application/json, */*;q=0.1
+            Content-Type: application/json
+            x-http-method-override: PUT
+          port: 80
+          method: POST
+          version: "HTTP/1.1"
+          uri: /subdir/wordpress-here/wp-json/wp/v2/posts/1&_locale=user
+          data: |
+            {"id":1,"content":"<p>Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!</p>\n\n<!-- wp:paragraph -->\n<p>dddd</p>\n<!-- /wp:paragraph -->"}
+        output:
+          log:
+            no_expect_ids: [920450]
